@@ -25,12 +25,13 @@ else
 	wget "$p_url" -O $p_file
 fi
 
+##install...
 tar -zxvf $p_file
 cd $p_dir
 
 ./configure --prefix=$lua_dir --with-lua="$lua_dir" --lua-suffix="$lua_suffix" --with-lua-include="$lua_inc" 
 make
-sudo make install
+sudo make bootstrap
 
 ##clean...
 cd ~/tmp
