@@ -1,0 +1,13 @@
+[user]
+	name = USERNAME
+	email = EMAIL
+[core]
+	editor = vim
+[color]
+	ui = true
+[alias]
+	unstage = reset HEAD
+	ss      = status -s
+	sss     = status
+	br      = branch
+	graph   = log --oneline --decorate --graph --all

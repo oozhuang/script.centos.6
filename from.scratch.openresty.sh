@@ -23,7 +23,6 @@ make try-luajit
 cd $p_dir
 make
 sudo make install
-make install
 
 ##prepare safe-config
 sudo mkdir -p $openresty_path/{vhost,project,project.lualib}
