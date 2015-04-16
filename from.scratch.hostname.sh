@@ -11,7 +11,7 @@ f_tmp=~/tmp/tmp.network
 f_target=/etc/sysconfig/network
 
 sudo cat $f_target | \
-	sudo sed "s/HOSTNAME=\(.*\)$/HOSTNAME=$1/g" > $f_tmp
+	sed "s/HOSTNAME=\(.*\)$/HOSTNAME=$1/g" > $f_tmp
 if [[ `cat $f_tmp| grep "HOSTNAME"|wc -l` -lt 1 ]];then
 	echo "HOSTNAME=$1" >> $f_tmp
 fi
