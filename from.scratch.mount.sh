@@ -5,8 +5,8 @@ if [[ $# -lt 2 ]]; then
 	echo "usage:$0 mount-dev mount-dir">&2; exit;
 fi
 
-if [[ ! -f "$1" ]]; then
-	echo "mount-dev $1 doesnot exist.">&2; exit
+if [[ ! -b "$1" ]]; then
+	echo "mount-dev $1 is not a special-block, or doesnot exist.">&2; exit
 fi
 
 if [[ -f "$2" || -d "$2" ]]; then
