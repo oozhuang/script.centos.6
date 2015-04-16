@@ -62,10 +62,7 @@ func_set_safe_read $lualib_path/$proj_name
 
 echo "$proj_path deployed."
 
-if [[ "$2" == "reload" ]]; then
-	sudo $openresty_path/nginx/sbin/nginx -t
-	if [[ $? -eq 0 ]]; then
-		sudo $openresty_path/nginx/sbin/nginx -s reload
-	fi
-fi
+sudo $openresty_path/nginx/sbin/nginx -t
+#TODO need to backup running-code
+
 
