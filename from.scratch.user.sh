@@ -14,7 +14,7 @@ mkdir -p ~/tmp
 cat $CUR_DIR/resource/gitconfig \
 	| sed "s/USERNAME/$1/g" \
 	| sed "s/EMAIL/$2/g" > ~/tmp/gitconfig
-sudo cp ~/tmp/gitconfig /home/$1/.gitconfig
+sudo mv ~/tmp/gitconfig /home/$1/.gitconfig
 sudo mkdir -p /home/$1/.ssh
 sudo touch /home/$1/.ssh/authorized_keys
 sudo chown $1:$1 /home/$1 -R
