@@ -17,11 +17,16 @@ m_dev="$1"
 m_dir="$2"
 
 set -e
+echo "-----hints:begin----"
+echo "n :new partition"
+echo "p :primary"
+echo "1 "
+echo "-----hints:end----"
 sudo fdisk $m_dev
 #fdisk -l
 sudo mkfs.ext3 ${m_dev}1
 #cat /etc/fstab 
-sudo echo "${m_dev}1 $m_dir    ext3    defaults    0  0" >> /etc/fstab
+sudo echo "${m_dev}1 $m_dir    ext3    defaults    0  0" | sudo tee -a /etc/fstab
 #cat /etc/fstab 
 sudo mkdir $m_dir
 mount -a
