@@ -3,9 +3,10 @@
 #depend on inc/deploy.sh
 #!!!
 g_openresty_dir="/usr/local/openresty"
-g_proj_dir="$openresty_path/project"
-g_host_dir="$openresty_path/vhost"
-g_lualib_dir="$openresty_path/project.lualib"
+g_proj_dir="$g_openresty_path/project"
+g_host_dir="$g_openresty_path/vhost"
+g_lualib_dir="$g_openresty_path/project.lualib"
+g_nginx="$g_openresty_path/nginx/sbin/nginx"
 g_backup_dir="/bak"
 g_uniq_key="`date +"%s"`-lua-$$"
 #---the following var(s) should be initialized.---
@@ -26,10 +27,10 @@ function func_deploy_init()
 	g_dest_name=`tool_get_src_name $1`
 	g_dest_lib_dir="$g_proj_dir/$g_dest_name"
 	g_dest_dir="$g_lualib_dir/$g_dest_name"
-	g_dest_conf="$g_host_dir/$dest_name.ngx.conf"
-	g_tmp_dir="$g_proj_dir/$dest_name.$g_uniq_key"
-	g_tmp_lib_dir="$g_lualib_dir/$dest_name.$g_uniq_key"
-	g_tmp_conf="$g_host_dir/$dest_name.$g_uniq_key.ngx.conf"
+	g_dest_conf="$g_host_dir/$g_dest_name.ngx.conf"
+	g_tmp_dir="$g_proj_dir/$g_dest_name.$g_uniq_key"
+	g_tmp_lib_dir="$g_lualib_dir/$g_dest_name.$g_uniq_key"
+	g_tmp_conf="$g_host_dir/$g_dest_name.$g_uniq_key.ngx.conf"
 }
 
 function func_deploy_backup() 
@@ -54,14 +55,14 @@ function func_deploy_prepare() {
 	_list="$g_tmp_dir/lua"
 	for f in $_list; do tool_keep_safe_exec $f; done
 		
-	sudo $openresty_path/nginx/sbin/nginx -t
+	sudo $g_nginx -t
 
 	return $?
 }
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list do sudo rm -rf $f; done
+	for f in $_list; do sudo rm -rf $f; done
 	sudo mv $g_tmp_dir     $g_dest_dir
 	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv $g_tmp_conf    $g_dest_conf
@@ -71,7 +72,7 @@ function func_deploy_finalize() {
 
 function func_deploy_clear() {
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list do sudo rm -rf $f; done
+	for f in $_list; do sudo rm -rf $f; done
 	return 0
 }
 
