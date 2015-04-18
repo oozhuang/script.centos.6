@@ -3,10 +3,10 @@
 #depend on inc/deploy.sh
 #!!!
 g_openresty_dir="/usr/local/openresty"
-g_proj_dir="$g_openresty_path/project"
-g_host_dir="$g_openresty_path/vhost"
-g_lualib_dir="$g_openresty_path/project.lualib"
-g_nginx="$g_openresty_path/nginx/sbin/nginx"
+g_proj_dir="$g_openresty_dir/project"
+g_host_dir="$g_openresty_dir/vhost"
+g_lualib_dir="$g_openresty_dir/project.lualib"
+g_nginx="$g_openresty_dir/nginx/sbin/nginx"
 g_backup_dir="/bak"
 g_uniq_key="`date +"%s"`-lua-$$"
 #---the following var(s) should be initialized.---
