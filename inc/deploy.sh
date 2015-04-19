@@ -51,7 +51,7 @@ function tool_get_src_name ()
 function tool_get_src_version ()
 {
 	if [[ ! -f "$1/VERSION" ]]; then return; fi
-	head -n 1 $1/VERSION
+	sudo head -n 1 $1/VERSION
 }
 function tool_get_src_type ()
 {

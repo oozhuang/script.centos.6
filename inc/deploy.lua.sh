@@ -53,9 +53,9 @@ function func_deploy_prepare() {
 	_list="$g_tmp_dir/html $g_tmp_lib_dir $g_tmp_conf"
 	for f in $_list; do tool_keep_safe_read $f; done
 		
-	_list="$g_tmp_dir/lua"
+	_list="$g_tmp_dir/lua" # TODO keep_safe_read is ok?
 	for f in $_list; do tool_keep_safe_exec $f; done
-		
+	
 	sudo $g_nginx -t
 
 	return $?
