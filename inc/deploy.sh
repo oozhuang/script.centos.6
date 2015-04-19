@@ -71,18 +71,20 @@ function tool_get_src_type ()
 function tool_backup_general ()
 {
 	if [[ $# -lt 2 ]]; then echo "usage: tool_backup_general dest-proj backup-dir">&2; return -1; fi
-	if [[ ! -d "$1" ]]; then echo "backup $dest_name...NONE."; return 0; fi
+	bak_name=`tool_get_src_name $1`
+	bak_dir=`tool_get_src_dir $1`
+	bak_ver=`tool_get_src_version $1`
+	bak_bz2="$bak_name.$bak_ver.tar.bz2"
+	if [[ ! -d "$1" ]]; then echo "backup $bak_name...NONE"; return 0; fi
 	if [[ ! -d "$2" ]]; then echo "backup-dir: $2 doesnot exist.">&2; return -1; fi
-	dest_name=`tool_get_src_name $1`
-	dest_dir=`tool_get_src_dir $1`
-	dest_ver=`tool_get_src_version $1`
-	if [[ "$dest_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
+	if [[ "$bak_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
+	if [[ -d "$2/$bak_bz2" ]]; then echo "backup $bak_name...$bak_ver(did it be4, ignored)"; return 0; fi
 	mkdir -p ~/tmp
 	sudo cp -R $1 ~/tmp/
 	cd ~/tmp
-	sudo tar -jcvf $dest_name.$dest_ver.tar.bz2 $dest_name
-	sudo mv $dest_name.$dest_ver.tar.bz2 $2/
-	echo "backup $dest_name...$dest_ver"
+	sudo tar -jcf $bak_bz2 $bak_name
+	sudo mv $bak_bz2 $2/
+	echo "backup $bak_name...$bak_ver"
 	return 0
 }
 
