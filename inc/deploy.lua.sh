@@ -58,11 +58,11 @@ function func_deploy_prepare() {
 
 	tool_keep_safe $g_tmp_dir
 
-	_list="$g_tmp_dir/html $g_tmp_lib_dir $g_tmp_conf"
+	_list="$g_tmp_dir/html $g_tmp_dir/lua $g_tmp_lib_dir $g_tmp_conf"
 	for f in $_list; do tool_keep_safe_read $f; done
 		
-	_list="$g_tmp_dir/lua" # TODO keep_safe_read is ok?
-	for f in $_list; do tool_keep_safe_exec $f; done
+	#_list="$g_tmp_dir/lua" # TODO keep_safe_read is ok?
+	#for f in $_list; do tool_keep_safe_exec $f; done
 	
 	sudo $g_nginx -t
 
@@ -71,7 +71,7 @@ function func_deploy_prepare() {
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list; do sudo rm -rf $f; echo "--rm $f ok?$?."; done
+	for f in $_list; do sudo rm -rf $f; done
 	sudo mv $g_tmp_dir     $g_dest_dir
 	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv $g_tmp_conf    $g_dest_conf
