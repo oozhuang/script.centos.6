@@ -10,27 +10,35 @@ g_nginx="$g_openresty_dir/nginx/sbin/nginx"
 g_backup_dir="/bak"
 g_uniq_key="`date +"%s"`-lua-$$"
 #---the following var(s) should be initialized.---
+g_name=""
+g_ver=""
+#---
 g_src_dir=""
-g_src_ver=""
+g_src_lib_dir=""
+g_src_conf=""
+#---
 g_tmp_dir=""
 g_tmp_lib_dir=""
 g_tmp_conf=""
-g_dest_name=""
+#---
 g_dest_dir=""
+g_dest_lib_dir=""
 g_dest_conf=""
 #-------------------------------------------------
 
 function func_deploy_init() 
 {
+	g_name=`tool_get_src_name $1`
+	g_ver=`tool_get_src_version $1`
 	g_src_dir=`tool_get_src_dir $1`
-	g_src_ver=`tool_get_src_version $1`
-	g_dest_name=`tool_get_src_name $1`
-	g_dest_dir="$g_proj_dir/$g_dest_name"
-	g_dest_lib_dir="$g_lualib_dir/$g_dest_name"
-	g_dest_conf="$g_host_dir/$g_dest_name.ngx.conf"
-	g_tmp_dir="$g_proj_dir/$g_dest_name.$g_uniq_key"
-	g_tmp_lib_dir="$g_lualib_dir/$g_dest_name.$g_uniq_key"
-	g_tmp_conf="$g_host_dir/$g_dest_name.$g_uniq_key.ngx.conf"
+	g_src_lib_dir="$g_src_dir/lualib/$g_name"
+	g_src_conf="$g_src_dir/$g_name.ngx.conf"
+	g_tmp_dir="$g_proj_dir/$g_name.$g_uniq_key"
+	g_tmp_lib_dir="$g_lualib_dir/$g_name.$g_uniq_key"
+	g_tmp_conf="$g_host_dir/$g_name.$g_uniq_key.ngx.conf"
+	g_dest_dir="$g_proj_dir/$g_name"
+	g_dest_lib_dir="$g_lualib_dir/$g_name"
+	g_dest_conf="$g_host_dir/$g_name.ngx.conf"
 }
 
 function func_deploy_backup() 
@@ -40,9 +48,9 @@ function func_deploy_backup()
 }
 
 function func_deploy_prepare() {
-	sudo cp -vR $g_src_dir  $g_tmp_dir
-	sudo cp -vR $g_src_dir/lualib/$g_dest_name $g_tmp_lib_dir
-	sudo cp -v $g_src_dir/$g_dest_name.ngx.conf  $g_tmp_conf
+	sudo cp -R $g_src_dir     $g_tmp_dir
+	sudo cp -R $g_src_lib_dir $g_tmp_lib_dir
+	sudo cp    $g_src_conf    $g_tmp_conf
 	sudo rm -rf $g_tmp_dir/.git
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
@@ -67,7 +75,7 @@ function func_deploy_finalize() {
 	sudo mv -v $g_tmp_dir     $g_dest_dir
 	sudo mv -v $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv -v $g_tmp_conf    $g_dest_conf
-	echo "$g_dest_name($g_src_ver) deployed"
+	echo "$g_name($g_ver) deployed"
 	return 0
 }
 
