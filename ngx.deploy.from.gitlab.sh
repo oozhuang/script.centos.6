@@ -32,6 +32,6 @@ else
 fi
 cd -
 
-$CUR_DIR/ngx.deploy.sh $repo
-rm -rf $repo
+$CUR_DIR/ngx.deploy.sh $dir
+rm -rf $dir
 
