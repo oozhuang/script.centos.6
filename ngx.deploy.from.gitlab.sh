@@ -6,16 +6,16 @@ if [[ $# -lt 1 ]]; then
 fi
 repo="$1"
 tag="$2"
+dir=`echo "$repo"| sed "s#\(.*/\)\(.*\)#\2#g"`
 
-if [[ -d "$repo" ]]; then
-	echo "dir $repo exists">&2; exit
+if [[ -d "$dir" ]]; then
+	echo "dir[$dir] for repo[$repo] exists">&2; exit
 fi
 
 set -e
-mkdir -p ~/tmp/
-cd ~/tmp
+mkdir -p ~/tmp/; cd ~/tmp
 git clone "git@gitlab.com:$repo.git"
-cd $repo
+cd $dir
 git checkout master
 if [[ "$tag" != "" ]]; then
 	if [[ `git tag |grep "^$tag$"|wc -l` -lt 1 ]]; then
