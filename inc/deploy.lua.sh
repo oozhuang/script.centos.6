@@ -71,17 +71,17 @@ function func_deploy_prepare() {
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list; do sudo rm -rvf $f; echo "--rm $f ok?$?."; done
-	sudo mv -v $g_tmp_dir     $g_dest_dir
-	sudo mv -v $g_tmp_lib_dir $g_dest_lib_dir
-	sudo mv -v $g_tmp_conf    $g_dest_conf
+	for f in $_list; do sudo rm -rf $f; echo "--rm $f ok?$?."; done
+	sudo mv $g_tmp_dir     $g_dest_dir
+	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
+	sudo mv $g_tmp_conf    $g_dest_conf
 	echo "$g_name($g_ver) deployed"
 	return 0
 }
 
 function func_deploy_clear() {
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list; do sudo rm -vrf $f; done
+	for f in $_list; do sudo rm -rf $f; done
 	return 0
 }
 
