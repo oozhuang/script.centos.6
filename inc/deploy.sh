@@ -71,18 +71,18 @@ function tool_get_src_type ()
 function tool_backup_general ()
 {
 	if [[ $# -lt 2 ]]; then echo "usage: tool_backup_general dest-proj backup-dir">&2; return -1; fi
-	bak_name=`tool_get_src_name $1`
-	bak_dir=`tool_get_src_dir $1`
-	bak_ver=`tool_get_src_version $1`
-	bak_bz2="$bak_name.$bak_ver.tar.bz2"
-	if [[ ! -d "$1" ]]; then echo "backup $bak_name...NONE"; return 0; fi
+	target_dir=`tool_get_src_dir $1`
+	target_name=`tool_get_src_name $1`
+	target_ver=`tool_get_src_version $1`
+	target_bz2="$target_name.$target_ver.tar.bz2"
+	if [[ ! -d "$target_dir" ]]; then echo "backup $target_name...NONE"; return 0; fi
 	if [[ ! -d "$2" ]]; then echo "backup-dir: $2 doesnot exist.">&2; return -1; fi
-	if [[ "$bak_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
-	if [[ -f "$2/$bak_bz2" ]]; then echo "backup $bak_name...$bak_ver(did it be4, ignored)"; return 0; fi
-	cd $1; cd ..
-	sudo tar -jcf $bak_bz2 $bak_name
-	sudo mv $bak_bz2 $2/
-	echo "backup $bak_name...$bak_ver"
+	if [[ "$target_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
+	if [[ -f "$2/$target_bz2" ]]; then echo "backup $target_name...$target_ver(did it be4, ignored)"; return 0; fi
+	cd $target_dir; cd ..
+	sudo tar -jcf $target_bz2 $target_name
+	sudo mv -v $target_bz2 $2/
+	echo "backup $target_name...$target_ver"
 	return 0
 }
 
