@@ -78,7 +78,7 @@ function tool_backup_general ()
 	if [[ ! -d "$1" ]]; then echo "backup $bak_name...NONE"; return 0; fi
 	if [[ ! -d "$2" ]]; then echo "backup-dir: $2 doesnot exist.">&2; return -1; fi
 	if [[ "$bak_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
-	if [[ -d "$2/$bak_bz2" ]]; then echo "backup $bak_name...$bak_ver(did it be4, ignored)"; return 0; fi
+	if [[ -f "$2/$bak_bz2" ]]; then echo "backup $bak_name...$bak_ver(did it be4, ignored)"; return 0; fi
 	cd $1; cd ..
 	sudo tar -jcf $bak_bz2 $bak_name
 	sudo mv $bak_bz2 $2/

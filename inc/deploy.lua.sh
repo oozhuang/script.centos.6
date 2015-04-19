@@ -63,7 +63,7 @@ function func_deploy_prepare() {
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list; do sudo rm -rf $f; done
+	for f in $_list; do sudo rm -rvf $f; echo "--rm $f ok."; done
 	sudo mv $g_tmp_dir     $g_dest_dir
 	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv $g_tmp_conf    $g_dest_conf
