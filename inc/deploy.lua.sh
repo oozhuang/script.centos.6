@@ -40,9 +40,9 @@ function func_deploy_backup()
 }
 
 function func_deploy_prepare() {
-	sudo cp -R $g_src_dir  $g_tmp_dir
-	sudo cp -R $g_src_dir/lualib/$g_dest_name $g_tmp_lib_dir
-	sudo cp $g_src_dir/$g_dest_name.ngx.conf  $g_tmp_conf
+	sudo cp -vR $g_src_dir  $g_tmp_dir
+	sudo cp -vR $g_src_dir/lualib/$g_dest_name $g_tmp_lib_dir
+	sudo cp -v $g_src_dir/$g_dest_name.ngx.conf  $g_tmp_conf
 	sudo rm -rf $g_tmp_dir/.git
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
@@ -63,17 +63,17 @@ function func_deploy_prepare() {
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list; do sudo rm -rvf $f; echo "--rm $f ok."; done
-	sudo mv $g_tmp_dir     $g_dest_dir
-	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
-	sudo mv $g_tmp_conf    $g_dest_conf
+	for f in $_list; do sudo rm -rvf $f; echo "--rm $f ok?$?."; done
+	sudo mv -v $g_tmp_dir     $g_dest_dir
+	sudo mv -v $g_tmp_lib_dir $g_dest_lib_dir
+	sudo mv -v $g_tmp_conf    $g_dest_conf
 	echo "$g_dest_name($g_src_ver) deployed"
 	return 0
 }
 
 function func_deploy_clear() {
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list; do sudo rm -rf $f; done
+	for f in $_list; do sudo rm -vrf $f; done
 	return 0
 }
 
