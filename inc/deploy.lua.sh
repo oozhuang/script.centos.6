@@ -41,8 +41,9 @@ function func_deploy_backup()
 
 function func_deploy_prepare() {
 	sudo cp -R $g_src_dir  $g_tmp_dir
-	sudo cp -R $g_src_dir/lualib  $g_tmp_lib_dir
+	sudo cp -R $g_src_dir/lualib/$g_dest_name $g_tmp_lib_dir
 	sudo cp $g_src_dir/$g_dest_name.ngx.conf  $g_tmp_conf
+	sudo rm -rf $g_tmp_dir/.git
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
 	for f in $_list; do tool_set_own $f root; done
