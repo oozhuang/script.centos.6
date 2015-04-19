@@ -22,11 +22,11 @@ g_dest_conf=""
 
 function func_deploy_init() 
 {
-	g_src_dir=$1
+	g_src_dir=`tool_get_src_dir $1`
 	g_src_ver=`tool_get_src_version $1`
 	g_dest_name=`tool_get_src_name $1`
-	g_dest_lib_dir="$g_proj_dir/$g_dest_name"
-	g_dest_dir="$g_lualib_dir/$g_dest_name"
+	g_dest_dir="$g_proj_dir/$g_dest_name"
+	g_dest_lib_dir="$g_lualib_dir/$g_dest_name"
 	g_dest_conf="$g_host_dir/$g_dest_name.ngx.conf"
 	g_tmp_dir="$g_proj_dir/$g_dest_name.$g_uniq_key"
 	g_tmp_lib_dir="$g_lualib_dir/$g_dest_name.$g_uniq_key"
