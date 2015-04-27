@@ -77,7 +77,7 @@ function tool_backup_general ()
 	_bz2="$_name.$_ver.tar.bz2"
 	if [[ ! -d "$_dir" ]]; then echo "backup $_name...NONE"; return 0; fi
 	if [[ ! -d "$2" ]]; then echo "backup-dir: $2 doesnot exist.">&2; return -1; fi
-	if [[ "$_ver" == "" ]]; then echo "VERSION is not specified.">&2; return -1; fi
+	if [[ "$_ver" == "" ]]; then echo "VERSION is not specified, ignored.">&2; return 0; fi
 	if [[ -f "$2/$_bz2" ]]; then echo "backup $_name...$_ver(did it be4, ignored)"; return 0; fi
 	cd $_dir; cd ..
 	sudo tar -jcf $_bz2 $_name
