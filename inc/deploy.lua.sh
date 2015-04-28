@@ -51,7 +51,6 @@ function func_deploy_prepare() {
 	sudo cp -R $g_src_dir     $g_tmp_dir
 	sudo cp -R $g_src_lib_dir $g_tmp_lib_dir
 	sudo cp    $g_src_conf    $g_tmp_conf
-	sudo rm -rf $g_tmp_dir/.git
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
 	for f in $_list; do tool_set_own $f root; done
@@ -72,6 +71,9 @@ function func_deploy_prepare() {
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
 	for f in $_list; do sudo rm -rf $f; done
+	#.git should not be deleted
+	# at the very beginning?
+	sudo rm -rf $g_tmp_dir/.git 
 	sudo mv $g_tmp_dir     $g_dest_dir
 	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv $g_tmp_conf    $g_dest_conf
