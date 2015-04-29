@@ -21,6 +21,7 @@ g_tmp_conf=""
 g_dest_dir=""
 g_dest_conf=""
 #-------------------------------------------------
+g_init_dir=""
 
 # 初始化
 function func_deploy_init()
@@ -33,6 +34,7 @@ function func_deploy_init()
     g_tmp_conf="$g_host_dir/$g_name.$g_uniq_key.ngx.conf"
     g_dest_dir="$g_proj_dir/$g_name"
     g_dest_conf="$g_host_dir/$g_name.ngx.conf"
+    g_init_dir="$g_dest_dir/Init"
 }
 
 # 备份原项目
@@ -77,6 +79,15 @@ function func_deploy_finalize() {
     sudo rm -rf $g_tmp_dir/.git
     sudo mv $g_tmp_dir     $g_dest_dir
     sudo mv $g_tmp_conf    $g_dest_conf
+
+    # 初始化项目需要的数据或其他
+    if [[ -f "$g_init_dir/init.php" ]]; then
+        # /usr/bin/php "$g_tmp_dir/Init/init.php"
+        php "$g_init_dir/init.php"
+
+        # 初始化完成，删除初始化目录
+        sudo rm -rf "$g_init_dir"
+    fi
 
     echo "$g_name($g_ver) deployed"
     return 0
