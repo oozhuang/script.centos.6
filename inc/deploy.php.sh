@@ -58,16 +58,15 @@ function func_deploy_prepare() {
     for f in $_list; do tool_set_own $f root; done
 
     # 设置权限
-    tool_keep_safe $g_tmp_dir
+    # php-fpm需要php文件要有可执行的权限
+    tool_keep_safe_exec $g_tmp_dir
 
     # keep Cache Public allow to read
     _list="$g_tmp_conf"
     for f in $_list; do tool_keep_safe_read $f; done
 
-    # _list="$g_tmp_dir/index.php"
-    # for f in $_list; do tool_set_mode $f 755 ; done
-
-    # @TODO 如果不先移除之前的conf，那么-t则有可能会出现错误或者警告
+    # @TODO 如果不先移除之前的vhost/conf，那么-t则有可能会出现错误或者警告
+    # 比如，server_name已存在
 
     sudo $g_nginx -t
 
