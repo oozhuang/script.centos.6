@@ -59,9 +59,9 @@ function tool_get_src_type ()
 	if [[ -d "$1/lua" ]]; then
 		t="${t}lua:"
 	fi
-	#TODO @zhanghaipeng, 
+
 	# make a rule to tell whether it's a php-project, or not.
-	if [[ -d "$1/php" ]]; then
+	if [[ -f "$1/index.php" ]]; then
 		t="${t}php:"
 	fi
 	echo "$t"
