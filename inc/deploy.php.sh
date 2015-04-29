@@ -7,7 +7,7 @@ g_proj_dir="$g_openresty_dir/project"
 g_host_dir="$g_openresty_dir/vhost"
 g_nginx="$g_openresty_dir/nginx/sbin/nginx"
 g_backup_dir="/bak"
-g_uniq_key="`date +"%s"`-lua-$$"
+g_uniq_key="`date +"%s"`-php-$$"
 #---the following var(s) should be initialized.---
 g_name=""
 g_ver=""
@@ -52,7 +52,6 @@ function func_deploy_prepare() {
     # 复制原目录到临时目录
     sudo cp -R $g_src_dir     $g_tmp_dir
     sudo cp    $g_src_conf    $g_tmp_conf
-    sudo rm -rf $g_tmp_dir/.git
 
     _list="$g_tmp_dir $g_tmp_conf"
     for f in $_list; do tool_set_own $f root; done
@@ -65,9 +64,6 @@ function func_deploy_prepare() {
     _list="$g_tmp_conf"
     for f in $_list; do tool_keep_safe_read $f; done
 
-    # @TODO 如果不先移除之前的vhost/conf，那么-t则有可能会出现错误或者警告
-    # 比如，server_name已存在
-
     sudo $g_nginx -t
 
     return $?
@@ -77,8 +73,11 @@ function func_deploy_prepare() {
 function func_deploy_finalize() {
     _list="$g_dest_dir $g_dest_conf"
     for f in $_list; do sudo rm -rf $f; done
+
+    sudo rm -rf $g_tmp_dir/.git
     sudo mv $g_tmp_dir     $g_dest_dir
     sudo mv $g_tmp_conf    $g_dest_conf
+
     echo "$g_name($g_ver) deployed"
     return 0
 }
