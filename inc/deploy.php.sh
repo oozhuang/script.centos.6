@@ -83,7 +83,7 @@ function func_deploy_finalize() {
     # 初始化项目需要的数据或其他
     if [[ -f "$g_init_dir/init.php" ]]; then
         # /usr/bin/php "$g_tmp_dir/Init/init.php"
-        php "$g_init_dir/init.php"
+        sudo php "$g_init_dir/init.php"
 
         # 初始化完成，删除初始化目录
         sudo rm -rf "$g_init_dir"
