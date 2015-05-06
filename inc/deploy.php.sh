@@ -56,7 +56,7 @@ function func_deploy_prepare() {
     sudo cp    $g_src_conf    $g_tmp_conf
 
     _list="$g_tmp_dir $g_tmp_conf"
-    for f in $_list; do tool_set_own $f root; done
+    for f in $_list; do tool_set_own $f nobody; done
 
     # 设置权限
     # php-fpm需要php文件要有可执行的权限
@@ -86,7 +86,7 @@ function func_deploy_finalize() {
         sudo php "$g_init_dir/init.php"
 
         # 初始化完成，删除初始化目录
-        sudo rm -rf "$g_init_dir"
+        # sudo rm -rf "$g_init_dir"
     fi
 
     echo "$g_name($g_ver) deployed"
