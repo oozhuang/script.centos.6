@@ -21,6 +21,7 @@ g_tmp_conf=""
 g_dest_dir=""
 g_dest_conf=""
 #-------------------------------------------------
+g_init_dir=""
 
 # 初始化
 function func_deploy_init()
@@ -33,6 +34,7 @@ function func_deploy_init()
     g_tmp_conf="$g_host_dir/$g_name.$g_uniq_key.ngx.conf"
     g_dest_dir="$g_proj_dir/$g_name"
     g_dest_conf="$g_host_dir/$g_name.ngx.conf"
+    g_init_dir="$g_dest_dir/Init"
 }
 
 # 备份原项目
@@ -54,7 +56,7 @@ function func_deploy_prepare() {
     sudo cp    $g_src_conf    $g_tmp_conf
 
     _list="$g_tmp_dir $g_tmp_conf"
-    for f in $_list; do tool_set_own $f root; done
+    for f in $_list; do tool_set_own $f nobody; done
 
     # 设置权限
     # php-fpm需要php文件要有可执行的权限
@@ -77,6 +79,15 @@ function func_deploy_finalize() {
     sudo rm -rf $g_tmp_dir/.git
     sudo mv $g_tmp_dir     $g_dest_dir
     sudo mv $g_tmp_conf    $g_dest_conf
+
+    # 初始化项目需要的数据或其他
+    if [[ -f "$g_init_dir/init.php" ]]; then
+        # /usr/bin/php "$g_tmp_dir/Init/init.php"
+        sudo php "$g_init_dir/init.php"
+
+        # 初始化完成，删除初始化目录
+        # sudo rm -rf "$g_init_dir"
+    fi
 
     echo "$g_name($g_ver) deployed"
     return 0
