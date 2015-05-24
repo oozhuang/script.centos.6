@@ -77,7 +77,7 @@ function func_deploy_finalize() {
 	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
 	sudo mv $g_tmp_conf    $g_dest_conf
 	echo "$g_name($g_ver) deployed"
-	return 1
+	return 0
 }
 
 function func_deploy_clear() {
