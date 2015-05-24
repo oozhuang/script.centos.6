@@ -3,7 +3,7 @@ function tool_mkdir_if_not_exist ()
 {
 	if [[ ! -d $1 ]]; then
 		sudo mkdir -p $1
-		sudo chown root:root $1 -R
+		sudo chown root:staff $1 -R
 		if [[ "$2" != "" ]]; then
 			sudo chmod $2 $1
 		fi
@@ -28,7 +28,7 @@ function tool_set_mode ()
 function tool_set_own () 
 {
 	if [[ ! -d $1 && ! -f $1 ]]; then echo "dir|file $1 not found.">&2; return 0; fi
-	sudo chown -R $2:$2 $1
+	sudo chown -R $2:$3 $1
 }
 
 function tool_keep_safe () { tool_set_mode $1 755 600; } 
