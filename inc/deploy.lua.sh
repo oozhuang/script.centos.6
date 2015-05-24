@@ -53,7 +53,7 @@ function func_deploy_prepare() {
 	sudo cp    $g_src_conf    $g_tmp_conf
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list; do tool_set_own $f root staff; done
+	for f in $_list; do tool_set_own $f root root; done
 
 	tool_keep_safe $g_tmp_dir
 
