@@ -57,9 +57,9 @@ function func_deploy_prepare() {
 
 	tool_keep_safe $g_tmp_dir
 
-	_list="$g_tmp_dir/html $g_tmp_dir/lua $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list; do tool_keep_safe_read $f; done
-		
+	_list="$g_tmp_dir/html $g_tmp_dir/template $g_tmp_dir/lua $g_tmp_lib_dir $g_tmp_conf"
+	for f in $_list; do if [[ -f $f || -d $f ]]; then tool_keep_safe_read $f; fi; done
+	
 	#_list="$g_tmp_dir/lua" # TODO keep_safe_read is ok?
 	#for f in $_list; do tool_keep_safe_exec $f; done
 	
