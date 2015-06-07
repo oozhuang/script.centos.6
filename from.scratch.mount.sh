@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 CUR_DIR=$(cd `dirname $0`;pwd)
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
 if [[ $# -lt 2 ]]; then
 	echo "usage:$0 mount-dev mount-dir">&2; exit;
@@ -22,12 +23,12 @@ echo "n :new partition"
 echo "p :primary"
 echo "1 "
 echo "-----hints:end----"
-sudo fdisk $m_dev
+$SUDO fdisk $m_dev
 #fdisk -l
-sudo mkfs.ext3 ${m_dev}1
+$SUDO mkfs.ext3 ${m_dev}1
 #cat /etc/fstab 
-sudo echo "${m_dev}1 $m_dir    ext3    defaults    0  0" | sudo tee -a /etc/fstab
+$SUDO echo "${m_dev}1 $m_dir    ext3    defaults    0  0" | $SUDO tee -a /etc/fstab
 #cat /etc/fstab 
-sudo mkdir $m_dir
+$SUDO mkdir $m_dir
 mount -a
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
-sudo service iptables restart
+$SUDO service iptables restart
 

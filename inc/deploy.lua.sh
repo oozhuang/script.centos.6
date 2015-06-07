@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 #!!!
 #depend on inc/deploy.sh
 #!!!
@@ -48,9 +49,9 @@ function func_deploy_backup()
 }
 
 function func_deploy_prepare() {
-	sudo cp -R $g_src_dir     $g_tmp_dir
-	sudo cp -R $g_src_lib_dir $g_tmp_lib_dir
-	sudo cp    $g_src_conf    $g_tmp_conf
+	$SUDO cp -R $g_src_dir     $g_tmp_dir
+	$SUDO cp -R $g_src_lib_dir $g_tmp_lib_dir
+	$SUDO cp    $g_src_conf    $g_tmp_conf
 
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
 	for f in $_list; do tool_set_own $f root staff; done
@@ -63,26 +64,26 @@ function func_deploy_prepare() {
 	#_list="$g_tmp_dir/lua" # TODO keep_safe_read is ok?
 	#for f in $_list; do tool_keep_safe_exec $f; done
 	
-	sudo $g_nginx -t || ( func_deploy_clear && return 1 )
+	$SUDO $g_nginx -t || ( func_deploy_clear && return 1 )
 
 }
 
 function func_deploy_finalize() {
 	_list="$g_dest_dir $g_dest_lib_dir $g_dest_conf"
-	for f in $_list; do sudo rm -rf $f; done
+	for f in $_list; do $SUDO rm -rf $f; done
 	#.git should not be deleted
 	# at the very beginning?
-	sudo rm -rf $g_tmp_dir/.git 
-	sudo mv $g_tmp_dir     $g_dest_dir
-	sudo mv $g_tmp_lib_dir $g_dest_lib_dir
-	sudo mv $g_tmp_conf    $g_dest_conf
+	$SUDO rm -rf $g_tmp_dir/.git 
+	$SUDO mv $g_tmp_dir     $g_dest_dir
+	$SUDO mv $g_tmp_lib_dir $g_dest_lib_dir
+	$SUDO mv $g_tmp_conf    $g_dest_conf
 	echo "$g_name($g_ver) deployed"
 	return 0
 }
 
 function func_deploy_clear() {
 	_list="$g_tmp_dir $g_tmp_lib_dir $g_tmp_conf"
-	for f in $_list; do sudo rm -rf $f; done
+	for f in $_list; do $SUDO rm -rf $f; done
 	echo "clear...done"
 	return 0
 }

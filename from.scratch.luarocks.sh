@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 CUR_DIR=$(cd `dirname $0`;pwd)
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
 openresty_path="/usr/local/openresty"
 p_file="v2.2.1.tar.gz"
@@ -31,7 +32,7 @@ cd $p_dir
 
 ./configure --prefix=$lua_dir --with-lua="$lua_dir" --lua-suffix="$lua_suffix" --with-lua-include="$lua_inc" 
 make
-sudo make bootstrap
+$SUDO make bootstrap
 
 ##clean...
 cd ~/tmp

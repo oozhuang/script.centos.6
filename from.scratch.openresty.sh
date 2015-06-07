@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 CUR_DIR=$(cd `dirname $0`;pwd)
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
 openresty_path="/usr/local/openresty"
 p_file="v1.7.10.1.tar.gz"
@@ -22,12 +23,12 @@ cd $p_dir
 make try-luajit 
 cd $p_dir
 make
-sudo make install
+$SUDO make install
 
 ##prepare safe-config
-sudo mkdir -p $openresty_path/{vhost,project,project.lualib}
+$SUDO mkdir -p $openresty_path/{vhost,project,project.lualib}
 cd $CUR_DIR
-sudo cp ./resource/nginx.conf $openresty_path/nginx/conf/
+$SUDO cp ./resource/nginx.conf $openresty_path/nginx/conf/
 
 ##clean...
 cd ~/tmp
