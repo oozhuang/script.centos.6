@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
-sudo vi /etc/sysconfig/iptables
+$SUDO vi /etc/sysconfig/iptables
 

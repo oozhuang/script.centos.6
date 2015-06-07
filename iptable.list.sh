@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
-sudo iptables -L -n
+$SUDO iptables -L -n
 

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="$SUDO";fi
 #!!!
 #depend on inc/deploy.sh
 #!!!
@@ -52,8 +53,8 @@ function func_deploy_backup()
 # 准备部署
 function func_deploy_prepare() {
     # 复制原目录到临时目录
-    sudo cp -R $g_src_dir     $g_tmp_dir
-    sudo cp    $g_src_conf    $g_tmp_conf
+    $SUDO cp -R $g_src_dir     $g_tmp_dir
+    $SUDO cp    $g_src_conf    $g_tmp_conf
 
     _list="$g_tmp_dir $g_tmp_conf"
     for f in $_list; do tool_set_own $f nobody; done
@@ -66,7 +67,7 @@ function func_deploy_prepare() {
     _list="$g_tmp_conf"
     for f in $_list; do tool_keep_safe_read $f; done
 
-    sudo $g_nginx -t
+    $SUDO $g_nginx -t
 
     return $?
 }
@@ -74,19 +75,19 @@ function func_deploy_prepare() {
 # 确认部署
 function func_deploy_finalize() {
     _list="$g_dest_dir $g_dest_conf"
-    for f in $_list; do sudo rm -rf $f; done
+    for f in $_list; do $SUDO rm -rf $f; done
 
-    sudo rm -rf $g_tmp_dir/.git
-    sudo mv $g_tmp_dir     $g_dest_dir
-    sudo mv $g_tmp_conf    $g_dest_conf
+    $SUDO rm -rf $g_tmp_dir/.git
+    $SUDO mv $g_tmp_dir     $g_dest_dir
+    $SUDO mv $g_tmp_conf    $g_dest_conf
 
     # 初始化项目需要的数据或其他
     if [[ -f "$g_init_dir/init.php" ]]; then
         # /usr/bin/php "$g_tmp_dir/Init/init.php"
-        sudo php "$g_init_dir/init.php"
+        $SUDO php "$g_init_dir/init.php"
 
         # 初始化完成，删除初始化目录
-        # sudo rm -rf "$g_init_dir"
+        # $SUDO rm -rf "$g_init_dir"
     fi
 
     echo "$g_name($g_ver) deployed"
@@ -96,7 +97,7 @@ function func_deploy_finalize() {
 # 清除部署
 function func_deploy_clear() {
     _list="$g_tmp_dir $g_tmp_conf"
-    for f in $_list; do sudo rm -rf $f; done
+    for f in $_list; do $SUDO rm -rf $f; done
     return 0
 }
 

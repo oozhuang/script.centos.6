@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+SUDO="";if [[ "root" != `whoami` ]]; then SUDO="sudo";fi
 
 keys="lo|eth0"
 if [[ "$1" != "" ]]; then
